@@ -6,6 +6,7 @@ public class HandAIController : MonoBehaviour
 {
     [Header("Variables")]
     public GameObject Target;
+    public GameObject chocolateInHand;
     public float followYOffset;
     public float smoothDampTime;
 
@@ -50,15 +51,22 @@ public class HandAIController : MonoBehaviour
             time = Random.Range(minTime, maxTime);
 
             yield return new WaitForSeconds(time);
-            animator.SetTrigger("Grab");
+
+            if (GameManager.gameStarted)
+            {
+                animator.SetTrigger("Grab");
+            }
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Gotcha");
+            other.gameObject.SetActive(false);
+            chocolateInHand.SetActive(true);
+            GameManager.gameStarted = false;
         }
     }
 }
