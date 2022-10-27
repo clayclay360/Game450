@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Variable")]
     public int jumpforce;
+    public GameObject body;
 
     // Start is called before the first frame update
     void Start()

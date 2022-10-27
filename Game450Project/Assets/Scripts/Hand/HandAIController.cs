@@ -7,9 +7,12 @@ public class HandAIController : MonoBehaviour
     [Header("Variables")]
     public GameObject Target;
     public GameObject chocolateInHand;
+    [HideInInspector]
     public float followYOffset;
+    [HideInInspector]
     public float followXOffset;
     public float smoothDampTime;
+    public float pingPongValue;
 
     [Header("Grab Mechanic")]
     public float minTime;
@@ -17,11 +20,14 @@ public class HandAIController : MonoBehaviour
 
     [HideInInspector]
     public bool isFollowingPlayer = true;
+    private float followDistance;
 
     private Animator animator;
     // Start is called before the first frame update
     void Start()
     {
+        followDistance = Target.transform.position.x - transform.position.x;
+
         animator = GetComponent<Animator>();
         StartCoroutine(Grab());
     }
@@ -29,7 +35,7 @@ public class HandAIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Follow();   
+        Follow();
     }
 
     public void Follow()
@@ -42,6 +48,9 @@ public class HandAIController : MonoBehaviour
             yReference = Mathf.SmoothDamp(transform.position.y, Target.transform.position.y + followYOffset, ref reference, smoothDampTime);
             gameObject.transform.position = new Vector3(transform.position.x, yReference, transform.position.z);
         }
+
+        followXOffset = Mathf.PingPong(Time.time, pingPongValue);
+        transform.position = new Vector3(followDistance + followXOffset + Target.transform.position.x, transform.position.y, transform.position.z);
     }
 
     private IEnumerator Grab()
@@ -53,7 +62,7 @@ public class HandAIController : MonoBehaviour
 
             yield return new WaitForSeconds(time);
 
-            if (GameManager.gameStarted  && GameManager.playerIsGrounded)
+            if (GameManager.gameStarted)
             {
                 animator.SetTrigger("Grab");
             }
@@ -65,7 +74,7 @@ public class HandAIController : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            other.gameObject.SetActive(false);
+            other.gameObject.GetComponentInChildren<PlayerController>().body.SetActive(false);
             chocolateInHand.SetActive(true);
             GameManager.gameStarted = false;
         }
