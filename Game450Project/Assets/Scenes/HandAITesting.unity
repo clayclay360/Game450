@@ -297,7 +297,9 @@ MonoBehaviour:
   Target: {fileID: 720199726}
   chocolateInHand: {fileID: 263043529}
   followYOffset: 0
+  followXOffset: 0
   smoothDampTime: 0.07
+  pingPongValue: 1
   minTime: 1
   maxTime: 9
   isFollowingPlayer: 1
