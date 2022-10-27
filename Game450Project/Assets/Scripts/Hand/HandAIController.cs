@@ -8,6 +8,7 @@ public class HandAIController : MonoBehaviour
     public GameObject Target;
     public GameObject chocolateInHand;
     public float followYOffset;
+    public float followXOffset;
     public float smoothDampTime;
 
     [Header("Grab Mechanic")]
