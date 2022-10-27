@@ -52,7 +52,7 @@ public class HandAIController : MonoBehaviour
 
             yield return new WaitForSeconds(time);
 
-            if (GameManager.gameStarted)
+            if (GameManager.gameStarted  && GameManager.playerIsGrounded)
             {
                 animator.SetTrigger("Grab");
             }
