@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Variable")]
     public int jumpforce;
+    public float playerSpeed;
     public GameObject body;
 
     // Start is called before the first frame update
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.Translate(Vector2.right * GameManager.scrollSpeed);
+        gameObject.transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
