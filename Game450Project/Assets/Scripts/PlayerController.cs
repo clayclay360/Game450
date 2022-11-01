@@ -18,14 +18,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.gameStarted)
-        {
-            gameObject.transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
+        gameObject.transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpforce);
-            }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpforce);
         }
     }
 
