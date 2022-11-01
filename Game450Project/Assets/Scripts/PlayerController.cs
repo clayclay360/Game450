@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Variable")]
+    public int jumps;
     public int jumpforce;
+    public int maxJumps;
     public float playerSpeed;
     public GameObject body;
 
@@ -13,6 +15,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameManager.playerIsGrounded = true;
+        jumps = 0;
     }
 
     // Update is called once per frame
@@ -22,7 +25,11 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpforce);
+            if(GameManager.playerIsGrounded || jumps < maxJumps)
+            {
+                gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpforce);
+                jumps++;
+            }
         }
     }
 
@@ -39,6 +46,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             GameManager.playerIsGrounded = true;
+            jumps = 0;
         }
     }
 }
