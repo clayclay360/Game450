@@ -20,6 +20,8 @@ public class HandAIController : MonoBehaviour
 
     [HideInInspector]
     public bool isFollowingPlayer = true;
+    [HideInInspector]
+    public bool isTryingToGrab = false;
     private float followDistance;
 
     private Animator animator;
@@ -29,13 +31,21 @@ public class HandAIController : MonoBehaviour
         followDistance = Target.transform.position.x - transform.position.x;
 
         animator = GetComponent<Animator>();
-        StartCoroutine(Grab());
     }
 
     // Update is called once per frame
     void Update()
     {
-        Follow();
+        if (GameManager.gameStarted)
+        {
+            Follow();
+
+            if (!isTryingToGrab)
+            {
+                StartCoroutine(Grab());
+                isTryingToGrab = true;
+            }
+        }
     }
 
     public void Follow()

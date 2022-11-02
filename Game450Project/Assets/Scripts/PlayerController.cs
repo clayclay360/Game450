@@ -21,14 +21,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (GameManager.gameStarted)
         {
-            if(GameManager.playerIsGrounded || jumps < maxJumps)
+            gameObject.transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
+
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpforce);
-                jumps++;
+                if (GameManager.playerIsGrounded || jumps < maxJumps)
+                {
+                    gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpforce);
+                    jumps++;
+                }
             }
         }
     }

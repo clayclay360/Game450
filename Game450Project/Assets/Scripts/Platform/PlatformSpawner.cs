@@ -14,17 +14,23 @@ public class PlatformSpawner : MonoBehaviour
     private void Start()
     {
         platformParent = GameObject.FindGameObjectWithTag("Environment").transform;
-        Destroy(gameObject, destroyTime);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Player") && !playerHit)
         {
             int randomPlatformIndex = Random.Range(0, platforms.Length);
             Instantiate(platforms[randomPlatformIndex], spawner.position, Quaternion.identity, platformParent);
             playerHit = true;
+        }
+    }
+
+    private void nCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && !playerHit)
+        {
+            Destroy(gameObject, destroyTime);
         }
     }
 }
