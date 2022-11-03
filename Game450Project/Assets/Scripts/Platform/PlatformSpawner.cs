@@ -5,24 +5,30 @@ using UnityEngine;
 public class PlatformSpawner : MonoBehaviour
 {
     public GameObject[] platforms;
-    public Transform spawner;
+    public GameObject deathZone;
     public float destroyTime;
     
-    private Transform platformParent;
+    private Transform platformParent, platformSpawner, deathZoneSpawner;
     private bool playerHit;
 
     private void Start()
     {
         platformParent = GameObject.FindGameObjectWithTag("Environment").transform;
+        platformSpawner = transform.Find("Spawn");
+        deathZoneSpawner = platformParent.Find("DeathZone").Find("Spawn");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && !playerHit)
+        if (GameManager.gameStarted)
         {
-            int randomPlatformIndex = Random.Range(0, platforms.Length);
-            Instantiate(platforms[randomPlatformIndex], spawner.position, Quaternion.identity, platformParent);
-            playerHit = true;
+            if (collision.gameObject.CompareTag("Player") && !playerHit)
+            {
+                int randomPlatformIndex = Random.Range(0, platforms.Length);
+                Instantiate(platforms[randomPlatformIndex], platformSpawner.position, Quaternion.identity, platformParent);
+                Instantiate(deathZone, deathZoneSpawner.position, Quaternion.identity, platformParent);
+                playerHit = true;
+            }
         }
     }
 
@@ -30,7 +36,13 @@ public class PlatformSpawner : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && !playerHit)
         {
-            Destroy(gameObject, destroyTime);
+            Debug.Log(gameObject.name);
+            Main main = GameObject.Find("Main").GetComponent<Main>();
+            if (gameObject != main.startingPlatform)
+            {
+                Destroy(gameObject, destroyTime);
+                Destroy(deathZone);
+            }
         }
     }
 }

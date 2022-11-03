@@ -46,16 +46,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.CompareTag("DeathZone"))
+        {
+            gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+            main.GetComponent<Main>().GameOver();
+        }
         if (collision.gameObject.CompareTag("Ground"))
         {
             GameManager.playerIsGrounded = true;
             jumps = 0;
-        }
-        else if(collision.gameObject.name == "DeathZone")
-        {
-            gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
-            main.GetComponent<Main>().GameOver();
         }
     }
 }

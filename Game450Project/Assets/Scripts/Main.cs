@@ -15,6 +15,15 @@ public class Main : MonoBehaviour
         hand.transform.position = handStartPosition.transform.position;
         player.GetComponent<PlayerController>().body.SetActive(true);
         hand.GetComponent<HandAIController>().chocolateInHand.SetActive(false);
+        GameObject[] platformsArray = GameObject.FindGameObjectsWithTag("Ground");
+        foreach(GameObject platform in platformsArray)
+        {
+            //Debug.Log(platform.name);
+            if (platform != startingPlatform)
+            {
+                Destroy(platform);
+            }
+        }
     }
 
     public void GameOver()
