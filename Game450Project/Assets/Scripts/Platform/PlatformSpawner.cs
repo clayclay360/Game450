@@ -26,7 +26,7 @@ public class PlatformSpawner : MonoBehaviour
         }
     }
 
-    private void nCollisionExit2D(Collision2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player") && !playerHit)
         {

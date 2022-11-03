@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public int jumpforce;
     public int maxJumps;
     public float playerSpeed;
-    public GameObject body;
+    public GameObject body, main;
 
     // Start is called before the first frame update
     void Start()
@@ -46,10 +46,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.CompareTag("Ground"))
         {
             GameManager.playerIsGrounded = true;
             jumps = 0;
+        }
+        else if(collision.gameObject.name == "DeathZone")
+        {
+            gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+            main.GetComponent<Main>().GameOver();
         }
     }
 }

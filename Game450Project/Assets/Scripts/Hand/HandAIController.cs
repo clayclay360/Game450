@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HandAIController : MonoBehaviour
 {
     [Header("Variables")]
-    public GameObject Target;
-    public GameObject chocolateInHand;
+    public GameObject Target, chocolateInHand, main;
     [HideInInspector]
     public float followYOffset;
     [HideInInspector]
@@ -84,9 +84,8 @@ public class HandAIController : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            other.gameObject.GetComponentInChildren<PlayerController>().body.SetActive(false);
             chocolateInHand.SetActive(true);
-            GameManager.gameStarted = false;
+            main.GetComponent<Main>().GameOver();
         }
     }
 }
