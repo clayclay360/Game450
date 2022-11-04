@@ -254,7 +254,7 @@ MonoBehaviour:
   platforms:
   - {fileID: 1412007525078612005, guid: 5613a7a4c3390954f9764466e174fe45, type: 3}
   - {fileID: 9172045797217547677, guid: 64d17c31db6857542a803310d1d52b3e, type: 3}
-  deathZone: {fileID: 2289445747298785054, guid: cc478a416d71b1141b44b41987b982de, type: 3}
+  platformSpawner: {fileID: 490672295}
   destroyTime: 10
 --- !u!50 &343459734
 Rigidbody2D:
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 412503267}
   m_Layer: 0
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: DeathZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -421,7 +421,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720199726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -1.285, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1480428502}
@@ -920,9 +920,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1144674137}
+  - component: {fileID: 1144674138}
   m_Layer: 0
   m_Name: DeathZone
-  m_TagString: Untagged
+  m_TagString: DeathZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -943,6 +944,21 @@ Transform:
   m_Father: {fileID: 1306711018}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1144674138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144674136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 865acf0c445a82449932b3889f64e962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathZone: {fileID: 2289445747298785054, guid: cc478a416d71b1141b44b41987b982de, type: 3}
+  deathZoneSpawner: {fileID: 1154432566}
+  destroyTime: 10
 --- !u!1 &1144842611
 GameObject:
   m_ObjectHideFlags: 0

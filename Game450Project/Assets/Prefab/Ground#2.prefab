@@ -188,7 +188,7 @@ MonoBehaviour:
   platforms:
   - {fileID: 1412007525078612005, guid: 5613a7a4c3390954f9764466e174fe45, type: 3}
   - {fileID: 9172045797217547677}
-  deathZone: {fileID: 2289445747298785054, guid: cc478a416d71b1141b44b41987b982de, type: 3}
+  platformSpawner: {fileID: 2247079220333155205}
   destroyTime: 10
 --- !u!50 &8116217581820945852
 Rigidbody2D:

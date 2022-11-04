@@ -79,7 +79,7 @@ MonoBehaviour:
   platforms:
   - {fileID: 1412007525078612005}
   - {fileID: 9172045797217547677, guid: 64d17c31db6857542a803310d1d52b3e, type: 3}
-  deathZone: {fileID: 2289445747298785054, guid: cc478a416d71b1141b44b41987b982de, type: 3}
+  platformSpawner: {fileID: 3860646398838989729}
   destroyTime: 10
 --- !u!50 &2595385805839362165
 Rigidbody2D:

@@ -5,17 +5,16 @@ using UnityEngine;
 public class PlatformSpawner : MonoBehaviour
 {
     public GameObject[] platforms;
-    public GameObject deathZone;
+    public Transform platformSpawner;
     public float destroyTime;
     
-    private Transform platformParent, platformSpawner, deathZoneSpawner;
+    private Transform platformParent;
     private bool playerHit;
 
     private void Start()
     {
         platformParent = GameObject.FindGameObjectWithTag("Environment").transform;
         platformSpawner = transform.Find("Spawn");
-        deathZoneSpawner = platformParent.Find("DeathZone").Find("Spawn");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -26,7 +25,6 @@ public class PlatformSpawner : MonoBehaviour
             {
                 int randomPlatformIndex = Random.Range(0, platforms.Length);
                 Instantiate(platforms[randomPlatformIndex], platformSpawner.position, Quaternion.identity, platformParent);
-                Instantiate(deathZone, deathZoneSpawner.position, Quaternion.identity, platformParent);
                 playerHit = true;
             }
         }
@@ -41,7 +39,6 @@ public class PlatformSpawner : MonoBehaviour
             if (gameObject != main.startingPlatform)
             {
                 Destroy(gameObject, destroyTime);
-                Destroy(deathZone);
             }
         }
     }
