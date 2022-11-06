@@ -23,23 +23,32 @@ public class PlatformSpawner : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player") && !playerHit)
             {
-                int randomPlatformIndex = Random.Range(0, platforms.Length);
-                Instantiate(platforms[randomPlatformIndex], platformSpawner.position, Quaternion.identity, platformParent);
+                InstantiatePlatform();
                 playerHit = true;
             }
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && GameManager.gameStarted && tag == "StartingPlatform" && !playerHit)
+        {
+            playerHit = true;
+            InstantiatePlatform();
+        }
+    }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && !playerHit)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log(gameObject.name);
-            Main main = GameObject.Find("Main").GetComponent<Main>();
-            if (gameObject != main.startingPlatform)
-            {
-                Destroy(gameObject, destroyTime);
-            }
+            Destroy(gameObject, destroyTime);
         }
+    }
+
+    public void InstantiatePlatform()
+    {
+        int randomPlatformIndex = Random.Range(0, platforms.Length);
+        Instantiate(platforms[randomPlatformIndex], platformSpawner.position, Quaternion.identity, platformParent);
     }
 }

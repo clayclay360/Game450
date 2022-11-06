@@ -14,6 +14,11 @@ public class CameraScript : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         cam.orthographicSize = startSize;
+
+        if (GameManager.gameStarted)
+        {
+            StartCoroutine(ZoomOut());
+        }
     }
 
     // Update is called once per frame
