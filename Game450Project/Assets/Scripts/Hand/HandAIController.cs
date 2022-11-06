@@ -84,7 +84,7 @@ public class HandAIController : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            other.gameObject.GetComponentInChildren<PlayerController>().body.SetActive(false);
+            other.gameObject.GetComponentInParent<PlayerController>().body.SetActive(false);
             chocolateInHand.SetActive(true);
             GameManager.gameStarted = false;
         }

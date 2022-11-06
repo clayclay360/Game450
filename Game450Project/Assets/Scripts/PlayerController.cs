@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour
     public int jumpforce;
     public int maxJumps;
     public float playerSpeed;
+
+    [Space]
     public GameObject body;
+    public Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
         GameManager.playerIsGrounded = true;
+        rb.GetComponent<Rigidbody2D>();
         jumps = 0;
     }
 
@@ -29,7 +33,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (GameManager.playerIsGrounded || jumps < maxJumps)
                 {
-                    gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpforce);
+                    rb.AddForce(Vector2.up * jumpforce);
                     jumps++;
                 }
             }
