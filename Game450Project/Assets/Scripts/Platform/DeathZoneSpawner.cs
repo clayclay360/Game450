@@ -36,15 +36,10 @@ public class DeathZoneSpawner : MonoBehaviour
 
     private void DespawnDeathZone()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player.transform.position.x >= deathZone.transform.position.x)
-        {
-            Debug.Log(gameObject.name);
-            Main main = GameObject.Find("Main").GetComponent<Main>();
-            if (gameObject != main.startingPlatform)
-            {
-                Destroy(deathZone, destroyTime);
-            }
-        }
+        //GameObject player = GameObject.FindGameObjectWithTag("Player");
+        //if (player.transform.position.x >= deathZone.transform.position.x)
+        //{
+        //    Destroy(deathZone, destroyTime);
+        //}
     }
 }

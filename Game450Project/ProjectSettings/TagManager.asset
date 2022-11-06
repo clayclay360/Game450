@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Environment
   - DeathZone
+  - StartingPlatform
   layers:
   - Default
   - TransparentFX

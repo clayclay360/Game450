@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     public GameObject body, main;
 
+    public float y_deadZone;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +36,11 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        if(transform.position.y < y_deadZone && GameManager.gameStarted)
+        {
+            FindObjectOfType<Main>().GameOver();
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -46,13 +53,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.CompareTag("DeathZone"))
         {
             gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
             main.GetComponent<Main>().GameOver();
         }
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("StartingPlatform"))
         {
             GameManager.playerIsGrounded = true;
             jumps = 0;
