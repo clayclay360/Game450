@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HandAIController : MonoBehaviour
 {
     [Header("Variables")]
-    public GameObject Target, chocolateInHand, main;
+    public GameObject Target, chocolateInHand;
     [HideInInspector]
     public float followYOffset;
     [HideInInspector]
@@ -72,7 +72,7 @@ public class HandAIController : MonoBehaviour
 
             yield return new WaitForSeconds(time);
 
-            if (GameManager.gameStarted && !GameManager.playerIsGrounded)
+            if (GameManager.gameStarted /*&& !GameManager.playerIsGrounded*/)
             {
                 animator.SetTrigger("Grab");
             }
@@ -85,8 +85,8 @@ public class HandAIController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             chocolateInHand.SetActive(true);
-            other.gameObject.GetComponent<PlayerController>().body.SetActive(false);
-            main.GetComponent<Main>().GameOver();
+            other.gameObject.GetComponentInParent<PlayerController>().body.SetActive(false);
+            FindObjectOfType<Main>().GameOver();
         }
     }
 }
