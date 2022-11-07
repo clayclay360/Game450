@@ -6,8 +6,11 @@ public class CameraScript : MonoBehaviour
 {
     public float startSize;
     public float gameSize;
+    [Space]
+    public GameObject target;
 
     private Camera cam;
+    private Vector3 offset;
 
     // Start is called before the first frame update
     void Start()
@@ -19,12 +22,14 @@ public class CameraScript : MonoBehaviour
         {
             StartCoroutine(ZoomOut());
         }
+
+        offset = transform.position - target.transform.position;
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        
+        transform.position = offset + new Vector3(target.transform.position.x,0,0);
     }
 
     public void ZoomOut(int x = 0)

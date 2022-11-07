@@ -80,6 +80,8 @@ MonoBehaviour:
   - {fileID: 1412007525078612005}
   - {fileID: 9172045797217547677, guid: 64d17c31db6857542a803310d1d52b3e, type: 3}
   - {fileID: 9172045797217547677, guid: decfa6516008a1841ba5b1cd1b07a902, type: 3}
+  - {fileID: 9172045797217547677, guid: cc9620ceab1c43e41b840e9c0a59ab97, type: 3}
+  - {fileID: 9172045797217547677, guid: d9ec5b1a7e567f04d9f0d90dd030a7f4, type: 3}
   platformSpawner: {fileID: 3860646398838989729}
   destroyTime: 10
 --- !u!50 &2595385805839362165
