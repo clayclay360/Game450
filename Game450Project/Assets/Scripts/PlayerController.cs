@@ -9,16 +9,17 @@ public class PlayerController : MonoBehaviour
     public int jumpforce;
     public int maxJumps;
     public float playerSpeed;
+    public float y_deadZone;
 
     [Space]
     public GameObject body;
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
         GameManager.playerIsGrounded = true;
-        rb.GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         jumps = 0;
     }
 
@@ -37,12 +38,17 @@ public class PlayerController : MonoBehaviour
                     jumps++;
                 }
             }
+
+            if (body.transform.position.y < y_deadZone && GameManager.gameStarted)
+            {
+                FindObjectOfType<Main>().GameOver();
+            }
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("StartingPlatform"))
         {
             GameManager.playerIsGrounded = false;
         }
@@ -50,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("StartingPlatform"))
         {
             GameManager.playerIsGrounded = true;
             jumps = 0;
