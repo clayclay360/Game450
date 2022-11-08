@@ -471,8 +471,8 @@ MonoBehaviour:
   jumpforce: 600
   maxJumps: 2
   playerSpeed: 10
+  y_deadZone: -10
   body: {fileID: 1480428501}
-  main: {fileID: 2106647817}
 --- !u!50 &720199730
 Rigidbody2D:
   serializedVersion: 4
@@ -527,7 +527,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 720199726}
   chocolateInHand: {fileID: 263043529}
-  main: {fileID: 2106647817}
   followYOffset: 0
   followXOffset: 0
   smoothDampTime: 0.05
@@ -1402,6 +1401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startSize: 5
   gameSize: 7
+  target: {fileID: 0}
 --- !u!1 &1592593849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1641,13 +1641,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94a48e3fba8158478c51d69de0492ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 720199726}
-  hand: {fileID: 743647346}
-  playerStartPosition: {fileID: 565127652}
-  handStartPosition: {fileID: 1677984044}
-  startButton: {fileID: 1088119088}
+  restartButton: {fileID: 0}
   gameOverText: {fileID: 1816577081}
-  startingPlatform: {fileID: 343459731}
+  startGame: 0
 --- !u!4 &2106647819
 Transform:
   m_ObjectHideFlags: 0
