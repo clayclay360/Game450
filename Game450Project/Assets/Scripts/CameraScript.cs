@@ -12,6 +12,13 @@ public class CameraScript : MonoBehaviour
     private Camera cam;
     private Vector3 offset;
 
+    private bool follow;
+
+    private void Awake()
+    {
+        follow = true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +36,33 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = offset + new Vector3(target.transform.position.x,0,0);
+        if (follow)
+        {
+            transform.position = offset + new Vector3(target.transform.position.x, 0, 0);
+
+            if (GameManager.playerCaptured)
+            {
+                follow = false;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        ReFollow();
+    }
+
+    public void ReFollow()
+    {
+        if (!follow)
+        {
+            float dist = target.transform.position.x - transform.position.x;
+
+            if (dist > offset.x)
+            {
+                follow = true;
+            }
+        }
     }
 
     public void ZoomOut(int x = 0)

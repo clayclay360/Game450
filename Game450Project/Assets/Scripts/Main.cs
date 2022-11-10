@@ -15,6 +15,8 @@ public class Main : MonoBehaviour
 
         if (GameManager.gameStarted)
         {
+            GameManager.playerCaptured = false;
+            GameManager.playerIsGrounded = true;
             StartGame();
         }    
     }
@@ -22,6 +24,8 @@ public class Main : MonoBehaviour
     public void StartGame()
     {
         GameManager.gameStarted = true;
+        GameManager.escapeGoal = 10;
+        GameManager.escapeTimer = 3;
     }
 
     public void GameOver()

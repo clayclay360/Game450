@@ -10,6 +10,7 @@ public class PlatformSpawner : MonoBehaviour
     
     private Transform platformParent;
     private bool playerHit;
+    private bool playerEnter;
 
     private void Start()
     {
@@ -21,10 +22,14 @@ public class PlatformSpawner : MonoBehaviour
     {
         if (GameManager.gameStarted)
         {
-            if (collision.gameObject.CompareTag("Player") && !playerHit)
+            if (collision.gameObject.CompareTag("Player"))
             {
-                InstantiatePlatform();
-                playerHit = true;
+                playerEnter = true;
+                if (!playerHit)
+                {
+                    InstantiatePlatform();
+                    playerHit = true;
+                }
             }
         }
     }
@@ -42,7 +47,8 @@ public class PlatformSpawner : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject, destroyTime);
+            playerEnter = false;
+            StartCoroutine(DestroyTimer(5f));
         }
     }
 
@@ -50,5 +56,26 @@ public class PlatformSpawner : MonoBehaviour
     {
         int randomPlatformIndex = Random.Range(0, platforms.Length);
         Instantiate(platforms[randomPlatformIndex], platformSpawner.position, Quaternion.identity, platformParent);
+    }
+
+    IEnumerator DestroyTimer(float timer = 0)
+    {
+        float currentTime = Time.unscaledTime;
+
+        while (timer > currentTime - Time.unscaledTime)
+        {
+            yield return null;
+
+            if (playerEnter)
+            {
+                break;
+            }
+        }
+        
+        //dont detroy if player is captured or game is over
+        if (!GameManager.playerCaptured && GameManager.gameStarted)
+        {
+            Destroy(gameObject, destroyTime);
+        }
     }
 }
