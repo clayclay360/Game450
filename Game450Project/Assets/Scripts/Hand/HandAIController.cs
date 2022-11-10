@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HandAIController : MonoBehaviour
 {
@@ -18,11 +19,19 @@ public class HandAIController : MonoBehaviour
     public float minTime;
     public float maxTime;
 
+    [Header("UI")]
+    public Slider slider;
+
     [HideInInspector]
     public bool isFollowingPlayer = true;
     [HideInInspector]
-    public bool isTryingToGrab = false;
+    public bool canGrab = false;
+    [HideInInspector]
+    public bool isGrabbing = true;
+    private bool shocked = false;
+    private bool miniGameStarted;
     private float followDistance;
+    private float dist;
 
     private Animator animator;
     // Start is called before the first frame update
@@ -39,11 +48,13 @@ public class HandAIController : MonoBehaviour
         if (GameManager.gameStarted)
         {
             Follow();
+            Captured();
+            EnemyShocked();
 
-            if (!isTryingToGrab)
+            if (!canGrab && !GameManager.playerCaptured)
             {
                 StartCoroutine(Grab());
-                isTryingToGrab = true;
+                canGrab = true;
             }
         }
     }
@@ -59,20 +70,23 @@ public class HandAIController : MonoBehaviour
             gameObject.transform.position = new Vector3(transform.position.x, yReference, transform.position.z);
         }
 
-        followXOffset = Mathf.PingPong(Time.time, pingPongValue);
-        transform.position = new Vector3(followDistance + followXOffset + Target.transform.position.x, transform.position.y, transform.position.z);
+        if (!shocked)
+        {
+            followXOffset = Mathf.PingPong(Time.time, pingPongValue);
+            transform.position = new Vector3(followDistance + followXOffset + Target.transform.position.x, transform.position.y, transform.position.z);
+        }
     }
 
     private IEnumerator Grab()
     {
-        while (GameManager.gameStarted)
+        while (!GameManager.playerCaptured && GameManager.gameStarted)
         {
             float time = 0;
             time = Random.Range(minTime, maxTime);
 
             yield return new WaitForSeconds(time);
 
-            if (GameManager.gameStarted)
+            if (!GameManager.playerCaptured)
             {
                 animator.SetTrigger("Grab");
             }
@@ -81,13 +95,72 @@ public class HandAIController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && isGrabbing)
         {
             other.gameObject.GetComponentInParent<PlayerController>().body.SetActive(false);
             chocolateInHand.SetActive(true);
-            FindObjectOfType<Main>().GameOver();
-            
+            slider.gameObject.SetActive(true);
+            GameManager.playerCaptured = true;
         }
+    }
+
+    public void EnemyShocked()
+    {
+        if (shocked)
+        {
+            dist = Target.transform.position.x - transform.position.x;
+
+            if(dist > followDistance)
+            {
+                shocked = false;
+            }
+        }
+    }
+
+    public void Captured()
+    {
+        if (GameManager.playerCaptured)
+        {
+            slider.value = GameManager.escapeRate;
+            slider.maxValue = GameManager.escapeGoal;
+
+            if (!miniGameStarted)
+            {
+
+                canGrab = false;
+                miniGameStarted = true;
+                GameManager.escapeRate = 0;
+                GameManager.escapeGoal = GameManager.escapeGoal + (GameManager.numberofCaptures * 3);
+                StartCoroutine(EscapeMiniGame(GameManager.escapeTimer + (GameManager.numberofCaptures * 2)));
+            }
+        }
+    }
+
+    IEnumerator EscapeMiniGame(float timer)
+    {
+        float currentTime = Time.unscaledTime;
+        while (timer > Time.unscaledTime - currentTime)
+        {
+            if (GameManager.escapeRate >= GameManager.escapeGoal && GameManager.gameStarted)
+            {
+                //free player
+                shocked = true;
+                chocolateInHand.gameObject.SetActive(false);
+                FindObjectOfType<PlayerController>().body.gameObject.SetActive(true);
+                FindObjectOfType<PlayerController>().BreakFree(chocolateInHand.transform.position);
+                miniGameStarted = false;
+                GameManager.playerCaptured = false;
+                slider.gameObject.SetActive(false);
+                break;
+            }
+            yield return null;
+        }
+
+        if(GameManager.escapeRate < GameManager.escapeGoal)
+        {
+            FindObjectOfType<Main>().GameOver();
+        }
+
+        slider.gameObject.SetActive(false);
     }
 }

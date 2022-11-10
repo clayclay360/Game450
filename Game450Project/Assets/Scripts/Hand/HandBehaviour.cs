@@ -9,6 +9,7 @@ public class HandBehaviour : StateMachineBehaviour
     {
         HandAIController controller = animator.GetComponent<HandAIController>();
         controller.isFollowingPlayer = false;
+        controller.isGrabbing = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -22,6 +23,7 @@ public class HandBehaviour : StateMachineBehaviour
     {
         HandAIController controller = animator.GetComponent<HandAIController>();
         controller.isFollowingPlayer = true;
+        controller.isGrabbing = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
