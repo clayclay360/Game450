@@ -9,6 +9,8 @@ public class Main : MonoBehaviour
     public GameObject  restartButton, gameOverText, timerText, endTimeText;
     public bool startGame;
 
+    private float timer;
+
     public void Start()
     {
         GameManager.gameStarted = startGame;
@@ -23,6 +25,7 @@ public class Main : MonoBehaviour
     {
         GameManager.gameStarted = true;
         timerText.SetActive(true);
+        timer = 0;
         Debug.Log("Game Started");
     }
 
@@ -31,7 +34,7 @@ public class Main : MonoBehaviour
         GameManager.gameStarted = false;
         timerText.SetActive(false);
         gameOverText.SetActive(true);
-        endTimeText.GetComponent<Text>().text += "\n" + timerText.GetComponent<Text>().text;
+        endTimeText.GetComponent<Text>().text += timerText.GetComponent<Text>().text + "Seconds";
         restartButton.SetActive(true);
     }
 
@@ -42,9 +45,10 @@ public class Main : MonoBehaviour
 
     public void Update()
     {
-        while (GameManager.gameStarted)
+        if (GameManager.gameStarted)
         {
-            timerText.GetComponent<Text>().text = Time.deltaTime.ToString("F2");
+            timer += Time.deltaTime;
+            timerText.GetComponent<Text>().text = timer.ToString("F2");
         }
     }
 }
