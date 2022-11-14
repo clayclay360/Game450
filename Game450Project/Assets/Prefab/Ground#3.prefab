@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6387163337090208124}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 52, y: 0, z: 0}
+  m_LocalPosition: {x: 89.82199, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 1583261021251387905}
@@ -112,6 +112,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1583261021251387905}
     m_Modifications:
+    - target: {fileID: 3257800394140742977, guid: 6465418449c32fc46900e9015ba2f9e6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 31.482512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321454374715630154, guid: 6465418449c32fc46900e9015ba2f9e6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 37.583775
+      objectReference: {fileID: 0}
+    - target: {fileID: 3717020872131930488, guid: 6465418449c32fc46900e9015ba2f9e6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 41.976685
+      objectReference: {fileID: 0}
     - target: {fileID: 6205014311911832198, guid: 6465418449c32fc46900e9015ba2f9e6, type: 3}
       propertyPath: m_Name
       value: SpritePlatform
@@ -130,7 +142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8260050075721879789, guid: 6465418449c32fc46900e9015ba2f9e6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.8
+      value: 21.12
       objectReference: {fileID: 0}
     - target: {fileID: 8260050075721879789, guid: 6465418449c32fc46900e9015ba2f9e6, type: 3}
       propertyPath: m_LocalPosition.y

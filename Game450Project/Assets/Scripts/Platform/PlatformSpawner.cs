@@ -61,6 +61,7 @@ public class PlatformSpawner : MonoBehaviour
     IEnumerator DestroyTimer(float timer = 0)
     {
         float currentTime = Time.unscaledTime;
+        bool destroyObject = false;
 
         while (timer > currentTime - Time.unscaledTime)
         {
@@ -68,12 +69,15 @@ public class PlatformSpawner : MonoBehaviour
 
             if (playerEnter)
             {
+                destroyObject = false;
                 break;
             }
+
+            destroyObject = true;
         }
         
         //dont detroy if player is captured or game is over
-        if (!GameManager.playerCaptured && GameManager.gameStarted)
+        if (!GameManager.playerCaptured && GameManager.gameStarted && destroyObject)
         {
             Destroy(gameObject, destroyTime);
         }

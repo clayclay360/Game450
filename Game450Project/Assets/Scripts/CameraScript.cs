@@ -6,17 +6,20 @@ public class CameraScript : MonoBehaviour
 {
     public float startSize;
     public float gameSize;
+    public float maxHeight;
     [Space]
     public GameObject target;
 
     private Camera cam;
     private Vector3 offset;
+    private Vector3 pos;
 
     private bool follow;
 
     private void Awake()
     {
         follow = true;
+        pos = transform.position;
     }
 
     // Start is called before the first frame update
@@ -45,11 +48,23 @@ public class CameraScript : MonoBehaviour
                 follow = false;
             }
         }
+        FollowYOffset();
     }
 
     private void Update()
     {
         ReFollow();
+        
+    }
+
+    public void FollowYOffset()
+    {
+        if(target.transform.position.y >= maxHeight)
+        {
+            Debug.Log("Calling");
+            float dist = target.transform.position.y - maxHeight;
+            transform.position += new Vector3(0, dist, 0);
+        }
     }
 
     public void ReFollow()
