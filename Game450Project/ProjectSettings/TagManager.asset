@@ -8,6 +8,7 @@ TagManager:
   - Environment
   - DeathZone
   - StartingPlatform
+  - Background
   layers:
   - Default
   - TransparentFX

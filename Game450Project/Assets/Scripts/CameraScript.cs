@@ -48,6 +48,11 @@ public class CameraScript : MonoBehaviour
                 follow = false;
             }
         }
+        else
+        {
+            //Solution to bug
+            transform.position = new Vector3(target.transform.position.x, 0, transform.position.z);
+        }
         FollowYOffset();
     }
 
@@ -61,7 +66,6 @@ public class CameraScript : MonoBehaviour
     {
         if(target.transform.position.y >= maxHeight)
         {
-            Debug.Log("Calling");
             float dist = target.transform.position.y - maxHeight;
             transform.position += new Vector3(0, dist, 0);
         }
