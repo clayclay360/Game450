@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public int maxJumps;
     public float playerSpeed;
     public float y_deadZone;
+    public float breakingForce;
 
     [Space]
     public GameObject body;
@@ -26,7 +27,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.gameStarted)
+
+        Movement();
+        Escape();
+
+        //if the player is captured, turn off the gravity
+        if (GameManager.playerCaptured)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+    }
+
+    public void Movement()
+    {
+        if (GameManager.gameStarted && !GameManager.playerCaptured)
         {
             gameObject.transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
 
@@ -44,6 +58,24 @@ public class PlayerController : MonoBehaviour
                 FindObjectOfType<Main>().GameOver();
             }
         }
+    }
+
+    public void Escape()
+    {
+        if (GameManager.playerCaptured)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                GameManager.escapeRate++;
+            }
+        }
+    }
+
+    public void BreakFree(Vector3 pos)
+    {
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        transform.position = pos;
+        rb.AddForce(Vector2.up * breakingForce);
     }
 
     private void OnCollisionExit2D(Collision2D collision)

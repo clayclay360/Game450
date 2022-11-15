@@ -6,10 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour
 {
-    public GameObject  restartButton, gameOverText, timerText, endTimeText;
+    public GameObject  restartButton, gameOverText;
     public bool startGame;
-
-    private float timer;
 
     public void Start()
     {
@@ -17,6 +15,8 @@ public class Main : MonoBehaviour
 
         if (GameManager.gameStarted)
         {
+            GameManager.playerCaptured = false;
+            GameManager.playerIsGrounded = true;
             StartGame();
         }    
     }
@@ -24,31 +24,19 @@ public class Main : MonoBehaviour
     public void StartGame()
     {
         GameManager.gameStarted = true;
-        timerText.SetActive(true);
-        timer = 0;
-        Debug.Log("Game Started");
+        GameManager.escapeGoal = 10;
+        GameManager.escapeTimer = 3;
     }
 
     public void GameOver()
     {
         GameManager.gameStarted = false;
-        timerText.SetActive(false);
         gameOverText.SetActive(true);
-        endTimeText.GetComponent<Text>().text += timerText.GetComponent<Text>().text + "Seconds";
         restartButton.SetActive(true);
     }
 
     public void RestartGame(int index)
     {
         SceneManager.LoadScene(index, LoadSceneMode.Single);
-    }
-
-    public void Update()
-    {
-        if (GameManager.gameStarted)
-        {
-            timer += Time.deltaTime;
-            timerText.GetComponent<Text>().text = timer.ToString("F2");
-        }
     }
 }
