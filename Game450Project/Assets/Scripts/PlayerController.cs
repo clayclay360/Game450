@@ -93,5 +93,10 @@ public class PlayerController : MonoBehaviour
             GameManager.playerIsGrounded = true;
             jumps = 0;
         }
+        if (collision.gameObject.CompareTag("Collectible"))
+        {
+            Destroy(collision.gameObject);
+            GameManager.collectibleCount++;
+        }
     }
 }

@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlatformSpawner : MonoBehaviour
 {
     public GameObject[] platforms;
-    public Transform platformSpawner;
+    public GameObject collectible;
+    public Transform platformSpawner, collectibleSpawner;
     public float destroyTime;
+    public int collectibleSpawnChance;
     
     private Transform platformParent;
     private bool playerHit;
@@ -16,6 +18,7 @@ public class PlatformSpawner : MonoBehaviour
     {
         platformParent = GameObject.FindGameObjectWithTag("Environment").transform;
         platformSpawner = transform.Find("Spawn");
+        collectibleSpawner = transform.Find("CollectibleSpawn");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -56,6 +59,16 @@ public class PlatformSpawner : MonoBehaviour
     {
         int randomPlatformIndex = Random.Range(0, platforms.Length);
         Instantiate(platforms[randomPlatformIndex], platformSpawner.position, Quaternion.identity, platformParent);
+        SpawnCollectible();
+    }
+
+    public void SpawnCollectible()
+    {
+        int spawnRoll = Random.Range(0, 101);
+        if(spawnRoll <= collectibleSpawnChance)
+        {
+            Instantiate(collectible, collectibleSpawner.position, Quaternion.identity, platformParent);
+        }
     }
 
     IEnumerator DestroyTimer(float timer = 0)

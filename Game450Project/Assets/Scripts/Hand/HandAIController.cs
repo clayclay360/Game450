@@ -126,12 +126,20 @@ public class HandAIController : MonoBehaviour
 
             if (!miniGameStarted)
             {
-
-                canGrab = false;
-                miniGameStarted = true;
-                GameManager.escapeRate = 0;
-                GameManager.escapeGoal = GameManager.escapeGoal + (GameManager.numberofCaptures * 3);
-                StartCoroutine(EscapeMiniGame(GameManager.escapeTimer + (GameManager.numberofCaptures * 2)));
+                if (GameManager.collectibleCount >= GameManager.numberofCaptures * 2)
+                {
+                    canGrab = false;
+                    miniGameStarted = true;
+                    GameManager.escapeRate = 0;
+                    GameManager.escapeGoal = GameManager.escapeGoal + (GameManager.numberofCaptures * 3);
+                    GameManager.collectibleCount -= GameManager.numberofCaptures * 2;
+                    GameManager.numberofCaptures++;
+                    StartCoroutine(EscapeMiniGame(GameManager.escapeTimer + (GameManager.numberofCaptures * 2)));
+                }
+                else
+                {
+                    FindObjectOfType<Main>().GameOver();
+                }
             }
         }
     }
