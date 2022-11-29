@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameManager.playerIsGrounded = true;
+        GameManager.playerSpeed = playerSpeed;
         rb = GetComponent<Rigidbody2D>();
         jumps = 0;
         hovering = false;
@@ -52,7 +53,7 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.gameStarted && !GameManager.playerCaptured)
         {
-            gameObject.transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
+            gameObject.transform.Translate(Vector2.right * GameManager.playerSpeed * Time.deltaTime);
 
             if (Input.GetKey(KeyCode.Space))
             {
