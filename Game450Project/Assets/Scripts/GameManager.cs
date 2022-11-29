@@ -12,4 +12,5 @@ public class GameManager : MonoBehaviour
     public static float escapeTimer;
     public static int numberofCaptures;
     public static int collectibleCount;
+    public static float playerSpeed;
 }
