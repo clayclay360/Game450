@@ -6,9 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour
 {
-    public GameObject  restartButton, gameOverText, timerText, endTimeText, collectibleCounterText;
+    [Header("Variables")]
+    public GameObject restartButton;
+    public GameObject gameOverText, timerText, endTimeText, collectibleCounterText;
     public bool startGame;
 
+    [Header("Speed Progression")]
+    public float maxSpeedProgressionDistance;
+    public float speedProgression;
     private float timer;
 
     public void Start()
@@ -39,6 +44,7 @@ public class Main : MonoBehaviour
         GameManager.gameStarted = false;
         gameOverText.SetActive(true);
         timerText.SetActive(false);
+        collectibleCounterText.SetActive(false);
         endTimeText.GetComponent<Text>().text += timerText.GetComponent<Text>().text + "Seconds";
         restartButton.SetActive(true);
     }
@@ -46,6 +52,26 @@ public class Main : MonoBehaviour
     public void RestartGame(int index)
     {
         SceneManager.LoadScene(index, LoadSceneMode.Single);
+    }
+
+    public void StartSpeedProgression()
+    {
+        StartCoroutine(SpeedProgression());
+    }
+
+    public IEnumerator SpeedProgression()
+    {
+        float  timeTarget = timer + 15;
+
+        while (GameManager.gameStarted)
+        {
+            if (timer > timeTarget && timeTarget < maxSpeedProgressionDistance)
+            {
+                GameManager.playerSpeed += speedProgression;
+                timeTarget += 15;
+            }
+            yield return null;
+        }
     }
 
     public void Update()
