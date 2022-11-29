@@ -49,9 +49,11 @@ MonoBehaviour:
   jumps: 0
   jumpforce: 400
   maxJumps: 2
+  maxhovertime: 5
   playerSpeed: 10
   y_deadZone: -10
   breakingForce: 500
+  hovering: 0
   body: {fileID: 7409215889121096691}
 --- !u!50 &7409215887756941332
 Rigidbody2D:

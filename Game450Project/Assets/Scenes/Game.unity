@@ -1801,6 +1801,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 700606215793713754, guid: 52533c438016da645920c58f5244df97, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 700606215793713755, guid: 52533c438016da645920c58f5244df97, type: 3}
       propertyPath: Target
       value: 
@@ -1917,6 +1921,10 @@ PrefabInstance:
     - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
       propertyPath: playerSpeed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
+      propertyPath: maxhovertime
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}

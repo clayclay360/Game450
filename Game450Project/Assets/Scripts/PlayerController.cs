@@ -8,9 +8,13 @@ public class PlayerController : MonoBehaviour
     public int jumps;
     public int jumpforce;
     public int maxJumps;
+    public int maxhovertime;
     public float playerSpeed;
     public float y_deadZone;
     public float breakingForce;
+    public bool hovering;
+
+    private float hovertimer;
 
     [Space]
     public GameObject body;
@@ -22,6 +26,8 @@ public class PlayerController : MonoBehaviour
         GameManager.playerIsGrounded = true;
         rb = GetComponent<Rigidbody2D>();
         jumps = 0;
+        hovering = false;
+        hovertimer = 0;
     }
 
     // Update is called once per frame
@@ -46,11 +52,27 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (GameManager.playerIsGrounded || jumps < maxJumps)
+                if (GameManager.playerIsGrounded || (jumps < maxJumps && !hovering))
                 {
                     rb.AddForce(Vector2.up * jumpforce);
                     jumps++;
                 }
+            }
+            if (Input.GetKey(KeyCode.Space))
+            {
+                if (!GameManager.playerIsGrounded && rb.velocity.y <= 0 && hovertimer < maxhovertime)
+                {
+                    hovering = true;
+                    rb.gravityScale = 0;
+                    rb.velocity = new Vector2(0, 0);
+                    hovertimer += Time.deltaTime;
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space) || hovertimer >= maxhovertime)
+            {
+                rb.gravityScale = 1;
+                hovering = false;
             }
 
             if (body.transform.position.y < y_deadZone && GameManager.gameStarted)
@@ -92,6 +114,7 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.playerIsGrounded = true;
             jumps = 0;
+            hovertimer = 0;
         }
         if (collision.gameObject.CompareTag("Collectible"))
         {
