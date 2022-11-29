@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public bool hovering;
 
     private float hovertimer;
+    private float presstimer;
+    private float hoverpresstime;
 
     [Space]
     public GameObject body;
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
         jumps = 0;
         hovering = false;
         hovertimer = 0;
+        presstimer = 0;
+        hoverpresstime = 0.1f;
     }
 
     // Update is called once per frame
@@ -50,27 +54,29 @@ public class PlayerController : MonoBehaviour
         {
             gameObject.transform.Translate(Vector2.right * playerSpeed * Time.deltaTime);
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (GameManager.playerIsGrounded || (jumps < maxJumps && !hovering))
-                {
-                    rb.AddForce(Vector2.up * jumpforce);
-                    jumps++;
-                }
-            }
             if (Input.GetKey(KeyCode.Space))
             {
-                if (!GameManager.playerIsGrounded && rb.velocity.y <= 0 && hovertimer < maxhovertime)
+                if (!GameManager.playerIsGrounded && hovertimer < maxhovertime)
                 {
-                    hovering = true;
-                    rb.gravityScale = 0;
-                    rb.velocity = new Vector2(0, 0);
-                    hovertimer += Time.deltaTime;
+                    presstimer += Time.deltaTime;
+                    if (presstimer <= hoverpresstime)
+                    {
+                        hovering = true;
+                        rb.gravityScale = 0;
+                        rb.velocity = new Vector2(0, 0);
+                        hovertimer += Time.deltaTime;
+                    }
                 }
             }
 
             if (Input.GetKeyUp(KeyCode.Space) || hovertimer >= maxhovertime)
             {
+                if (GameManager.playerIsGrounded || (jumps < maxJumps && presstimer < hoverpresstime))
+                {
+                    rb.AddForce(Vector2.up * jumpforce);
+                    jumps++;
+                }
+                presstimer = 0;
                 rb.gravityScale = 1;
                 hovering = false;
             }
