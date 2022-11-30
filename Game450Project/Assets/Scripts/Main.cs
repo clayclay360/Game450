@@ -47,6 +47,7 @@ public class Main : MonoBehaviour
         collectibleCounterText.SetActive(false);
         endTimeText.GetComponent<Text>().text += timerText.GetComponent<Text>().text + "Seconds";
         restartButton.SetActive(true);
+        FindObjectOfType<HandAIController>().slider.gameObject.SetActive(false);
     }
 
     public void RestartGame(int index)
