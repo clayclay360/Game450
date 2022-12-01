@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float hoverPressTime;
     public float hoverGravityScale;
     public bool hovering;
+    public float maxHeight;
 
     private float hovertimer;
     private float presstimer;
@@ -89,6 +90,10 @@ public class PlayerController : MonoBehaviour
             {
                 FindObjectOfType<Main>().GameOver();
             }
+
+            float posY = transform.position.y;
+            posY = Mathf.Clamp(posY, -20, maxHeight);
+            transform.position = new Vector2(transform.position.x, posY);
         }
     }
 

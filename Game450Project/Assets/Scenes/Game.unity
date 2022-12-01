@@ -1916,6 +1916,10 @@ PrefabInstance:
       value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
+      propertyPath: maxHeight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
       propertyPath: presstimer
       value: 0.2
       objectReference: {fileID: 0}

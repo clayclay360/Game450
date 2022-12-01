@@ -37,6 +37,22 @@ public class PlatformSpawner : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (GameManager.gameStarted)
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                playerEnter = true;
+                if (!playerHit)
+                {
+                    InstantiatePlatform();
+                    playerHit = true;
+                }
+            }
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player") && GameManager.gameStarted && tag == "StartingPlatform" && !playerHit)
