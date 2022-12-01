@@ -6,17 +6,18 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Variable")]
     public int jumps;
-    public int jumpforce;
+    public int jumpForce;
     public int maxJumps;
-    public int maxhovertime;
+    public int maxHoverTime;
     public float playerSpeed;
     public float y_deadZone;
     public float breakingForce;
+    public float hoverPressTime;
+    public float hoverGravityScale;
     public bool hovering;
 
     private float hovertimer;
     private float presstimer;
-    private float hoverpresstime;
 
     [Space]
     public GameObject body;
@@ -32,7 +33,6 @@ public class PlayerController : MonoBehaviour
         hovering = false;
         hovertimer = 0;
         presstimer = 0;
-        hoverpresstime = 0.1f;
     }
 
     // Update is called once per frame
@@ -57,24 +57,27 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Space))
             {
-                if (!GameManager.playerIsGrounded && hovertimer < maxhovertime)
+                if (!GameManager.playerIsGrounded && hovertimer < maxHoverTime)
                 {
                     presstimer += Time.deltaTime;
-                    if (presstimer <= hoverpresstime)
+                    if (presstimer <= hoverPressTime)
                     {
                         hovering = true;
-                        rb.gravityScale = 0;
-                        rb.velocity = new Vector2(0, 0);
+                        rb.gravityScale = 0.2f;
+                        if(hovertimer <= 0)
+                        {
+                            rb.velocity = new Vector2(0, 0);
+                        }
                         hovertimer += Time.deltaTime;
                     }
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.Space) || hovertimer >= maxhovertime)
+            if (Input.GetKeyUp(KeyCode.Space) || hovertimer >= maxHoverTime)
             {
-                if (GameManager.playerIsGrounded || (jumps < maxJumps && presstimer < hoverpresstime))
+                if (GameManager.playerIsGrounded || (jumps < maxJumps && presstimer < hoverPressTime))
                 {
-                    rb.AddForce(Vector2.up * jumpforce);
+                    rb.AddForce(Vector2.up * jumpForce);
                     jumps++;
                 }
                 presstimer = 0;
