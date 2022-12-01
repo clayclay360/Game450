@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlatformSpawner : MonoBehaviour
 {
     public GameObject[] platforms;
-    public GameObject collectible;
+    public GameObject collectible, player;
     public Transform platformSpawner, collectibleSpawner;
     public float destroyTime;
     public int collectibleSpawnChance;
@@ -13,45 +13,26 @@ public class PlatformSpawner : MonoBehaviour
     private Transform platformParent;
     private bool playerHit;
     private bool playerEnter;
+    private int maxSpawnCount;
+    private int spawnCount;
 
     private void Start()
     {
         platformParent = GameObject.FindGameObjectWithTag("Environment").transform;
         platformSpawner = transform.Find("Spawn");
         collectibleSpawner = transform.Find("CollectibleSpawn");
+        player = GameObject.FindGameObjectWithTag("Player");
+        spawnCount = 0;
+        maxSpawnCount = 1;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void Update()
     {
-        if (GameManager.gameStarted)
+        if (player.transform.position.x >= platformSpawner.position.x && spawnCount < maxSpawnCount)
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                playerEnter = true;
-                if (!playerHit)
-                {
-                    InstantiatePlatform();
-                    playerHit = true;
-                }
-            }
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player") && GameManager.gameStarted && tag == "StartingPlatform" && !playerHit)
-        {
-            playerHit = true;
             InstantiatePlatform();
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            playerEnter = false;
             StartCoroutine(DestroyTimer(5f));
+            spawnCount++;
         }
     }
 
