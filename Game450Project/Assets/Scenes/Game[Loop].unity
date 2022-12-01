@@ -417,6 +417,8 @@ MonoBehaviour:
   endTimeText: {fileID: 666600648}
   collectibleCounterText: {fileID: 1051812328}
   startGame: 1
+  maxSpeedProgressionDistance: 0
+  speedProgression: 0
 --- !u!4 &445203164
 Transform:
   m_ObjectHideFlags: 0
@@ -1768,6 +1770,22 @@ PrefabInstance:
     - target: {fileID: 7409215887756941321, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
+      propertyPath: jumpForce
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
+      propertyPath: maxHoverTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
+      propertyPath: hoverPressTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
+      propertyPath: hoverGravityScale
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
