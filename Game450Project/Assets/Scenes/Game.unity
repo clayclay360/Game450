@@ -1911,6 +1911,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7409215887756941334, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
       propertyPath: jumpForce
       value: 400
@@ -1945,7 +1949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
       propertyPath: hoverGravityScale
-      value: 0.2
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
