@@ -7,6 +7,7 @@ public class CameraScript : MonoBehaviour
     public float startSize;
     public float gameSize;
     public float maxHeight;
+    public float yResetTimer;
     [Space]
     public GameObject target;
 
@@ -15,6 +16,7 @@ public class CameraScript : MonoBehaviour
     private Vector3 pos;
 
     private bool follow;
+    private bool resetY;
 
     private void Awake()
     {
@@ -41,6 +43,12 @@ public class CameraScript : MonoBehaviour
     {
         if (follow)
         {
+            if (resetY)
+            {
+                resetY = false;
+                StartCoroutine(ResetYPos(yResetTimer));
+            }
+
             transform.position = offset + new Vector3(target.transform.position.x, 0, 0);
 
             if (GameManager.playerCaptured)
@@ -51,7 +59,8 @@ public class CameraScript : MonoBehaviour
         else
         {
             //Solution to bug
-            transform.position = new Vector3(target.transform.position.x, 0, transform.position.z);
+            transform.position = new Vector3(target.transform.position.x, target.transform.position.y, transform.position.z);
+            resetY = true;
         }
         FollowYOffset();
     }
@@ -60,6 +69,19 @@ public class CameraScript : MonoBehaviour
     {
         ReFollow();
         
+    }
+
+    public IEnumerator ResetYPos(float timer)
+    {
+        float currentTime = Time.unscaledDeltaTime;
+        float localY = transform.position.y;
+        while(transform.position.y > 0)
+        {
+            localY -= (Time.unscaledDeltaTime - currentTime) / timer;
+            yield return null;            
+        }
+
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
 
     public void FollowYOffset()
