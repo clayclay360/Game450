@@ -588,7 +588,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1c582865d34f72046bf094874212659f, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1335,6 +1335,7 @@ MonoBehaviour:
   startSize: 5
   gameSize: 7
   maxHeight: 6
+  yResetTimer: 0.75
   target: {fileID: 720199726}
 --- !u!1 &1592593849
 GameObject:
@@ -1745,6 +1746,10 @@ PrefabInstance:
       propertyPath: Target
       value: 
       objectReference: {fileID: 720199726}
+    - target: {fileID: 700606215793713755, guid: 52533c438016da645920c58f5244df97, type: 3}
+      propertyPath: minTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 700606215793713756, guid: 52533c438016da645920c58f5244df97, type: 3}
       propertyPath: m_RootOrder
       value: 2

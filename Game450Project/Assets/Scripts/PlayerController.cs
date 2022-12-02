@@ -58,14 +58,15 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Space))
             {
-                if (!GameManager.playerIsGrounded && hovertimer < maxHoverTime)
+                if (!GameManager.playerIsGrounded && hovertimer < maxHoverTime && jumps >= maxJumps)
                 {
+                    Debug.Log("Hover");
                     presstimer += Time.deltaTime;
                     if (presstimer <= hoverPressTime)
                     {
                         hovering = true;
                         rb.gravityScale = 0.2f;
-                        if(hovertimer <= 0)
+                        if (hovertimer <= 0)
                         {
                             rb.velocity = new Vector2(0, 0);
                         }
@@ -78,7 +79,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (GameManager.playerIsGrounded || (jumps < maxJumps && presstimer < hoverPressTime))
                 {
-                    rb.AddForce(Vector2.up * jumpForce);
+                    rb.AddForce(Vector2.up * jumpForce/ (jumps+1));
                     jumps++;
                 }
                 presstimer = 0;
