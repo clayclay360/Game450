@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.PlayerLoop;
 
 public class Main : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Main : MonoBehaviour
     public GameObject restartButton;
     public GameObject gameOverText, timerText, endTimeText, collectibleCounterText;
     public bool startGame;
+    public float gravityScale;
 
     [Header("Speed Progression")]
     public float maxSpeedProgressionDistance;
@@ -77,6 +79,8 @@ public class Main : MonoBehaviour
 
     public void Update()
     {
+        GameManager.gravityScale = gravityScale;
+
         if (GameManager.gameStarted)
         {
             timer += Time.deltaTime;

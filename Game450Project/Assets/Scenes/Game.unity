@@ -588,7 +588,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1c582865d34f72046bf094874212659f, type: 3}
-  m_Color: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1707,6 +1707,7 @@ MonoBehaviour:
   endTimeText: {fileID: 1157511675}
   collectibleCounterText: {fileID: 1432559640}
   startGame: 0
+  gravityScale: 1.75
   maxSpeedProgressionDistance: 150
   speedProgression: 2
 --- !u!4 &2106647819
@@ -1916,13 +1917,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7409215887756941332, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7409215887756941334, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
       propertyPath: jumpForce
-      value: 400
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 7409215887756941335, guid: c6904378cbd14cb4eb8677c176961aee, type: 3}
       propertyPath: maxHeight

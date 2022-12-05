@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private float hovertimer;
     private float presstimer;
+    private float previousY;
 
     [Space]
     public GameObject body;
@@ -34,6 +35,8 @@ public class PlayerController : MonoBehaviour
         hovering = false;
         hovertimer = 0;
         presstimer = 0;
+        previousY = transform.position.y;
+        
     }
 
     // Update is called once per frame
@@ -52,15 +55,29 @@ public class PlayerController : MonoBehaviour
 
     public void Movement()
     {
+        //Debug.Log("Previous: " + previousY + " Current:" + transform.position.y);
+      
         if (GameManager.gameStarted && !GameManager.playerCaptured)
         {
             gameObject.transform.Translate(Vector2.right * GameManager.playerSpeed * Time.deltaTime);
 
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) /*|| hovertimer >= maxHoverTime*/)
             {
-                if (!GameManager.playerIsGrounded && hovertimer < maxHoverTime && jumps >= maxJumps)
+                if (GameManager.playerIsGrounded || /*(*/jumps < maxJumps /*&& presstimer < hoverPressTime)*/)
                 {
-                    Debug.Log("Hover");
+                    rb.AddForce(Vector2.up * jumpForce/ (jumps+1));
+                    jumps++;
+                }
+                presstimer = 0;
+                rb.gravityScale = GameManager.gravityScale;
+                hovering = false;
+            }
+
+            //as long as the player holds space and is falling
+            if (Input.GetKey(KeyCode.Space) && previousY > transform.position.y)
+            {
+                if (!GameManager.playerIsGrounded && hovertimer < maxHoverTime /*&& jumps >= maxJumps*/)
+                {
                     presstimer += Time.deltaTime;
                     if (presstimer <= hoverPressTime)
                     {
@@ -74,18 +91,12 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-
-            if (Input.GetKeyUp(KeyCode.Space) || hovertimer >= maxHoverTime)
+            if (Input.GetKeyUp(KeyCode.Space))
             {
-                if (GameManager.playerIsGrounded || (jumps < maxJumps && presstimer < hoverPressTime))
-                {
-                    rb.AddForce(Vector2.up * jumpForce/ (jumps+1));
-                    jumps++;
-                }
-                presstimer = 0;
-                rb.gravityScale = 1;
-                hovering = false;
+                rb.gravityScale = GameManager.gravityScale;
             }
+
+            previousY = transform.position.y;
 
             if (body.transform.position.y < y_deadZone && GameManager.gameStarted)
             {
