@@ -13,4 +13,5 @@ public class GameManager : MonoBehaviour
     public static int numberofCaptures;
     public static int collectibleCount;
     public static float playerSpeed;
+    public static float gravityScale;
 }
