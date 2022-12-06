@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     [Space]
     public GameObject body;
+    private Animator animator;
     private Rigidbody2D rb;
 
     // Start is called before the first frame update
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
         GameManager.playerIsGrounded = true;
         GameManager.playerSpeed = playerSpeed;
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         jumps = 0;
         hovering = false;
         hovertimer = 0;
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
 
         Movement();
         Escape();
+        Animations();
 
         //if the player is captured, turn off the gravity
         if (GameManager.playerCaptured)
@@ -93,6 +96,7 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKeyUp(KeyCode.Space))
             {
+                hovering = false;
                 rb.gravityScale = GameManager.gravityScale;
             }
 
@@ -125,6 +129,20 @@ public class PlayerController : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         transform.position = pos;
         rb.AddForce(Vector2.up * breakingForce);
+    }
+
+    public void Animations()
+    {
+        animator.SetBool("Hover", hovering);
+
+        if(GameManager.gameStarted && !GameManager.playerCaptured && !hovering)
+        {
+            animator.SetBool("Walk", true);
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
