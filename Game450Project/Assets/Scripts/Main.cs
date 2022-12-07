@@ -37,7 +37,7 @@ public class Main : MonoBehaviour
         timer = 0;
         collectibleCounterText.SetActive(true);
         GameManager.escapeGoal = 10;
-        GameManager.escapeTimer = 3;
+        GameManager.escapeTimer = 5;
         GameManager.collectibleCount = 0;
     }
 
