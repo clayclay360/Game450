@@ -11,6 +11,7 @@ public class PlatformSpawner : MonoBehaviour
     public int collectibleSpawnChance;
     
     private Transform platformParent;
+    private GameObject newPlatform;
     private bool playerHit;
     private bool playerEnter;
 
@@ -74,8 +75,8 @@ public class PlatformSpawner : MonoBehaviour
     public void InstantiatePlatform()
     {
         int randomPlatformIndex = Random.Range(0, platforms.Length);
-        Instantiate(platforms[randomPlatformIndex], platformSpawner.position, Quaternion.identity, platformParent);
-        SpawnCollectible();
+        newPlatform = Instantiate(platforms[randomPlatformIndex], platformSpawner.position, Quaternion.identity, platformParent);
+        newPlatform.GetComponent<PlatformSpawner>().SpawnCollectible();
     }
 
     public void SpawnCollectible()

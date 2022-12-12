@@ -9,7 +9,7 @@ public class Main : MonoBehaviour
 {
     [Header("Variables")]
     public GameObject restartButton;
-    public GameObject gameOverText, timerText, endTimeText, collectibleCounterText;
+    public GameObject gameOverText, timerText, endTimeText, collectibleCounterText, endCollectiblesText;
     public bool startGame;
     public float gravityScale;
 
@@ -48,6 +48,7 @@ public class Main : MonoBehaviour
         timerText.SetActive(false);
         collectibleCounterText.SetActive(false);
         endTimeText.GetComponent<Text>().text += timerText.GetComponent<Text>().text + "Seconds";
+        endCollectiblesText.GetComponent<Text>().text += GameManager.collectibleCount.ToString() + " Fruits";
         restartButton.SetActive(true);
         FindObjectOfType<HandAIController>().slider.gameObject.SetActive(false);
     }
