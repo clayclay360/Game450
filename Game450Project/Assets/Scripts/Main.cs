@@ -9,7 +9,7 @@ public class Main : MonoBehaviour
 {
     [Header("Variables")]
     public GameObject restartButton;
-    public GameObject gameOverText, timerText, endTimeText, collectibleCounterText, endCollectiblesText;
+    public GameObject gameOverMenu, timerText, endTimeText, collectibleCounterText, endCollectiblesText, respawnButton;
     public bool startGame;
     public float gravityScale;
 
@@ -18,14 +18,19 @@ public class Main : MonoBehaviour
     public float speedProgression;
     private float timer;
 
+    [Header("Respawn")]
+    public GameObject maggot;
+    public Transform spawnPos;
+    private int fruitTarget = 5;
     public void Start()
     {
         GameManager.gameStarted = startGame;
+        GameManager.playerCaptured = false;
+        GameManager.playerIsGrounded = true;
 
         if (GameManager.gameStarted)
         {
-            GameManager.playerCaptured = false;
-            GameManager.playerIsGrounded = true;
+            StartCoroutine(SpeedProgression());
             StartGame();
         }    
     }
@@ -39,18 +44,24 @@ public class Main : MonoBehaviour
         GameManager.escapeGoal = 10;
         GameManager.escapeTimer = 5;
         GameManager.collectibleCount = 0;
+        GameManager.localnumberOfFruit = 0;
     }
 
     public void GameOver()
     {
         GameManager.gameStarted = false;
-        gameOverText.SetActive(true);
+        gameOverMenu.SetActive(true);
         timerText.SetActive(false);
         collectibleCounterText.SetActive(false);
-        endTimeText.GetComponent<Text>().text += timerText.GetComponent<Text>().text + "Seconds";
-        endCollectiblesText.GetComponent<Text>().text += GameManager.collectibleCount.ToString() + " Fruits";
+        endTimeText.GetComponent<Text>().text = "Time: " + timer.ToString("F2") + "s";
+        endCollectiblesText.GetComponent<Text>().text = "Fruits: " + GameManager.collectibleCount.ToString() + " Fruits";
         restartButton.SetActive(true);
         FindObjectOfType<HandAIController>().slider.gameObject.SetActive(false);
+
+        if(GameManager.localnumberOfFruit >= fruitTarget)
+        {
+            respawnButton.GetComponent<Button>().interactable = true;
+        }
     }
 
     public void RestartGame(int index)
@@ -78,6 +89,19 @@ public class Main : MonoBehaviour
         }
     }
 
+    public void Respawn()
+    {
+        respawnButton.GetComponent<Button>().interactable = false;
+        gameOverMenu.SetActive(false);
+        GameObject maggotInstance = Instantiate(maggot, spawnPos.position, Quaternion.identity);
+        FindObjectOfType<CameraScript>().target = maggotInstance;
+        FindObjectOfType<HandAIController>().animator.SetBool("Go Away", true);
+        GameManager.localnumberOfFruit -= fruitTarget;
+        fruitTarget += 5;
+        collectibleCounterText.SetActive(true);
+        timerText.SetActive(true);
+    }
+
     public void Update()
     {
         GameManager.gravityScale = gravityScale;
@@ -86,9 +110,9 @@ public class Main : MonoBehaviour
         {
             timer += Time.deltaTime;
             timerText.GetComponent<Text>().text = timer.ToString("F2");
-            if (collectibleCounterText.GetComponent<Text>().text != "Collectibles: " + GameManager.collectibleCount.ToString())
+            if (collectibleCounterText.GetComponent<Text>().text != "Fruits: " + GameManager.collectibleCount.ToString())
             {
-                collectibleCounterText.GetComponent<Text>().text = "Collectibles: " + GameManager.collectibleCount.ToString();
+                collectibleCounterText.GetComponent<Text>().text = "Fruits: " + GameManager.collectibleCount.ToString();
             }
         }
     }

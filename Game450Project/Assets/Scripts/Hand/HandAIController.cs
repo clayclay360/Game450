@@ -29,11 +29,13 @@ public class HandAIController : MonoBehaviour
     [HideInInspector]
     public bool isGrabbing = true;
     private bool shocked = false;
-    private bool miniGameStarted;
+    [HideInInspector]
+    public bool miniGameStarted;
     private float followDistance;
     private float dist;
 
-    private Animator animator;
+    [HideInInspector]
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -132,7 +134,6 @@ public class HandAIController : MonoBehaviour
                 GameManager.numberofCaptures++;
                 GameManager.escapeGoal = GameManager.escapeGoal + (GameManager.numberofCaptures * 3);
                 StartCoroutine(EscapeMiniGame(GameManager.escapeTimer));
-                //GameManager.escapeTimer + (GameManager.numberofCaptures * 2)
             }
         }
     }

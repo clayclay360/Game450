@@ -51,10 +51,15 @@ public class CameraScript : MonoBehaviour
 
             transform.position = offset + new Vector3(target.transform.position.x, 0, 0);
 
-            if (GameManager.playerCaptured)
+            if (GameManager.playerCaptured &&  !GameManager.playerRespawning)
             {
                 follow = false;
             }
+        }
+        else if(GameManager.playerRespawning && FindObjectOfType<MaggotScript>() != null && FindObjectOfType<MaggotScript>().isGrounded)
+        {
+            Debug.Log("HI");
+            transform.position = new Vector3(target.transform.position.x, transform.position.y, transform.position.z);
         }
         else
         {
@@ -68,7 +73,6 @@ public class CameraScript : MonoBehaviour
     private void Update()
     {
         ReFollow();
-        
     }
 
     public IEnumerator ResetYPos(float timer)
@@ -109,6 +113,11 @@ public class CameraScript : MonoBehaviour
     public void ZoomOut(int x = 0)
     {
         StartCoroutine(ZoomOut());
+    }
+
+    public void EnableFollow()
+    {
+        follow = true;
     }
 
     IEnumerator ZoomOut()

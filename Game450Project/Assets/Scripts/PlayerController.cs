@@ -165,6 +165,14 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(collision.gameObject);
             GameManager.collectibleCount++;
+            GameManager.localnumberOfFruit++;
         }
+    }
+
+    public void ResetVariables()
+    {
+        rb.constraints = RigidbodyConstraints2D.None;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        jumps = 0;
     }
 }

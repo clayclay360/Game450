@@ -14,4 +14,6 @@ public class GameManager : MonoBehaviour
     public static int collectibleCount;
     public static float playerSpeed;
     public static float gravityScale;
+    public static bool playerRespawning;
+    public static int localnumberOfFruit;
 }
