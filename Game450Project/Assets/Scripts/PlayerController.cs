@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour
 {
     [Header("Variable")]
@@ -59,53 +60,59 @@ public class PlayerController : MonoBehaviour
     public void Movement()
     {
         //Debug.Log("Previous: " + previousY + " Current:" + transform.position.y);
-      
+
         if (GameManager.gameStarted && !GameManager.playerCaptured)
         {
             gameObject.transform.Translate(Vector2.right * GameManager.playerSpeed * Time.deltaTime);
 
-            if (Input.GetKeyDown(KeyCode.Space) /*|| hovertimer >= maxHoverTime*/)
+            if (Input.touches.Length > 0)
             {
-                if (GameManager.playerIsGrounded || /*(*/jumps < maxJumps /*&& presstimer < hoverPressTime)*/)
-                {
-                    rb.AddForce(Vector2.up * jumpForce/ (jumps+1));
-                    jumps++;
-                }
-                presstimer = 0;
-                rb.gravityScale = GameManager.gravityScale;
-                hovering = false;
-            }
+                Touch touch = Input.GetTouch(0);
 
-            //as long as the player holds space and is falling
-            if (Input.GetKey(KeyCode.Space) && previousY > transform.position.y)
-            {
-                if (!GameManager.playerIsGrounded && hovertimer < maxHoverTime /*&& jumps >= maxJumps*/)
+                if (Input.GetKeyDown(KeyCode.Space) || touch.phase == TouchPhase.Began)
                 {
-                    presstimer += Time.deltaTime;
-                    if (presstimer <= hoverPressTime)
+                    if (GameManager.playerIsGrounded || jumps < maxJumps)
                     {
-                        hovering = true;
-                        rb.gravityScale = 0.2f;
-                        if (hovertimer <= 0)
+                        rb.AddForce(Vector2.up * jumpForce / (jumps + 1));
+                        jumps++;
+                    }
+                    presstimer = 0;
+                    rb.gravityScale = GameManager.gravityScale;
+                    hovering = false;
+                }
+
+                //as long as the player holds space and is falling
+                if (Input.GetKey(KeyCode.Space) && previousY > transform.position.y ||
+                    touch.phase == TouchPhase.Stationary && previousY > transform.position.y)
+                {
+                    if (!GameManager.playerIsGrounded && hovertimer < maxHoverTime)
+                    {
+                        presstimer += Time.deltaTime;
+                        if (presstimer <= hoverPressTime)
                         {
-                            rb.velocity = new Vector2(0, 0);
+                            hovering = true;
+                            rb.gravityScale = 0.2f;
+                            if (hovertimer <= 0)
+                            {
+                                rb.velocity = new Vector2(0, 0);
+                            }
+                            hovertimer += Time.deltaTime;
                         }
-                        hovertimer += Time.deltaTime;
                     }
                 }
+                if (Input.GetKeyUp(KeyCode.Space) || touch.phase == TouchPhase.Ended)
+                {
+                    hovering = false;
+                    rb.gravityScale = GameManager.gravityScale;
+                }
             }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                hovering = false;
-                rb.gravityScale = GameManager.gravityScale;
-            }
-
-            previousY = transform.position.y;
-
+            
             if (body.transform.position.y < y_deadZone && GameManager.gameStarted)
             {
                 FindObjectOfType<Main>().GameOver();
             }
+
+            previousY = transform.position.y;
 
             float posY = transform.position.y;
             posY = Mathf.Clamp(posY, -20, maxHeight);
@@ -117,9 +124,16 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.playerCaptured)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            Touch touch;
+
+            if (Input.touches.Length > 0)
             {
-                GameManager.escapeRate++;
+                touch = Input.GetTouch(0);
+
+                if (Input.GetKeyDown(KeyCode.Space) || touch.phase == TouchPhase.Began)
+                {
+                    GameManager.escapeRate++;
+                }
             }
         }
     }
